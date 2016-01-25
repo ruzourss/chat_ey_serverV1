@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * Hilo que simula el funcionamiento de un nuevo cliente
@@ -21,6 +23,8 @@ public class cliente extends Thread {
     private DataOutputStream out;
     private DataInputStream input;
     private boolean session=true;
+    private JTextField field;
+    private JTextArea area;
     
     /**
      * Constructor por defecto
@@ -35,10 +39,11 @@ public class cliente extends Thread {
      * necesario para realizar la silumación de un mensaje multicast, ya que cuando 
      * un cliente escriba debe llegar a todos los usuarios conectados.
      */
-    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos ) {
+    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area ) {
         this.canal = canal;
         this.mensaje = mensaje;
         this.hilos=hilos;
+        this.area=area;
     }
     
     @Override
@@ -67,6 +72,7 @@ public class cliente extends Thread {
                                 out.flush();
                                 //modificamos el nombre del hilo si es el correcto
                                 setName(nick);
+                                field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());
                             }else{
                                 out.writeUTF(estados.NICK_ERROR);
                                 out.flush();
