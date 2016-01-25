@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package UIServer;
+
+import servidor.core;
 
 /**
  *
@@ -18,6 +15,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("VENTANA DEL SERVIDOR DE CHAT");
+        iniciarServidor();
     }
 
     /**
@@ -116,6 +114,10 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                 new ventanaPrincipal().setVisible(true);
             }
         });
+    }
+    
+    private void iniciarServidor(){
+        new core().start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
