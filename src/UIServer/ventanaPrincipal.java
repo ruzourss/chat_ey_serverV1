@@ -16,6 +16,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("VENTANA DEL SERVIDOR DE CHAT");
         iniciarServidor();
+        jTextFieldNumeroConexiones.setText("NÚMERO DE CONEXIONES ACTUALES: 0");
     }
 
     /**
@@ -117,7 +118,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     }
     
     private void iniciarServidor(){
-        new core().start();
+        new core(jTextFieldNumeroConexiones,jTextAreaChatGeneral).start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
