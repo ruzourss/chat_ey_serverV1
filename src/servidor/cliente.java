@@ -16,10 +16,11 @@ public class cliente extends Thread {
     //declaramos todos los objetos y variables que vamos a necesitar
     private Socket canal;
     private mensajeria mensaje;
-    private String cadena;
+    private String cadenaRecibida;
     private ArrayList<cliente> hilos; 
     private DataOutputStream out;
     private DataInputStream input;
+    private boolean session=true;
     
     /**
      * Constructor por defecto
@@ -47,24 +48,60 @@ public class cliente extends Thread {
         cierraCanales();
     }
     /**
-     * Método leer que simplemente esta a la espera de recibir una cadena.
+     * Método leer que simplemente esta a la espera de recibir una cadenaRecibida.
      * Después la envia al objeto mensaje que ahi es donde se "contabiliza"
      * el mensaje y se le renvia a todos los clientes conectados
      */
     private void leer(){
         try {
-            while((cadena=input.readUTF())!=null){
-                   mensaje.escribir(cadena,hilos);
-            } 
+            while(session){
+                cadenaRecibida=input.readUTF();
+                switch(cadenaRecibida){
+                    case estados.SEND_NICK:
+                        out.writeUTF(estados.GET_NICK);
+                        out.flush();
+                        //a la espera de que reciba un nick
+                        String nick = input.readUTF();
+                            if(compruebaNick(nick)){
+                                out.writeUTF(estados.GET_MESSAGES);
+                                out.flush();
+                                //modificamos el nombre del hilo si es el correcto
+                                setName(nick);
+                            }else{
+                                out.writeUTF(estados.NICK_ERROR);
+                                out.flush();
+                            }
+                    break;
+                    case estados.EXIT:
+                        /*
+                        En caso de que el cliente le envia un EXIT, primero 
+                        recorremos el array en busca del hilo y lo eliminamos.
+                        */
+                        for(int i=0;i<hilos.size();i++){
+                            if(hilos.get(i).getName().equals(this.getName())){
+                                hilos.remove(i);
+                                break;
+                            }
+                        }
+                        // modificamos la variable session para que termine el bucle y su
+                        // ejecución
+                        session=false;
+                    break;
+                        default:
+                            mensaje.escribir(cadenaRecibida, hilos, this);
+                    break;  
+                }
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         
     }
     /**
      * Este método debe ser público porque es llamado desde mensaje para renviar el mensaje 
      * a los clientes.
-     * @param cadena cadena a enviar a los clientes
+     * @param cadena cadenaRecibida a enviar a los clientes
      */
     public void escribir(String cadena){
         try {
@@ -110,6 +147,23 @@ public class cliente extends Thread {
                 Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    /**
+     * comprobamos el nick, si el nick coincide con alguno que esta ya devuelve false
+     * @param nick nombre del cliente que se ha conectado
+     * @return false si el nick existe o true en caso de que es correcto
+     */
+    private boolean compruebaNick(String nick){
+        boolean bandera=false;
+        for(int i=0;i<hilos.size();i++){
+            if(hilos.get(i).getName().equals(nick)){
+                bandera=false;
+                break;
+            }else{
+                bandera=true;
+            }
+        }
+        return bandera;
     }
     
 }
