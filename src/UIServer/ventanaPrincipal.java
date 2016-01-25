@@ -1,6 +1,6 @@
 package UIServer;
 
-import servidor.core;
+import servidor.coreMensajeria;
 
 /**
  *
@@ -118,7 +118,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     }
     
     private void iniciarServidor(){
-        new core(jTextFieldNumeroConexiones,jTextAreaChatGeneral).start();
+        new coreMensajeria(jTextFieldNumeroConexiones,jTextAreaChatGeneral).start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
