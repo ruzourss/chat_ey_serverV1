@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servidor;
-
 import java.util.ArrayList;
-
 /**
  *
  * @author Tote
@@ -14,17 +7,22 @@ import java.util.ArrayList;
 public class mensajeria {
     
     private String mensajes;
-    
-    
-    private void aniadir(String text){
-        this.mensajes+=text+"\n";
+
+    public mensajeria() {
+        mensajes="";
     }
     
-    public void escribir(String cadena,ArrayList<cliente> hilos){
-        aniadir(cadena);
+    public void escribir(String cadena,ArrayList<cliente> hilos, Thread cliente){
+        mensajes+=cadena+"\n";
         System.out.println("Recibido: "+cadena);
+        //le enviamos el mensaje a los clientes que estan dentro del array,
+        //realmnete estamos haciendo aqui el multicast
         for(int i=0;i<hilos.size();i++){
-            hilos.get(i).escribir(cadena);
+            //debo realizar la comprobación porque si no se repite el mensaje
+            //al que lo envio
+            if(!hilos.get(i).getName().equals(cliente.getName())){
+                hilos.get(i).escribir(cadena);
+            } 
         }
     }
 }
