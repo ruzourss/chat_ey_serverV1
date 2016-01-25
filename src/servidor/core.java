@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * se le pasa la conexión.
  * @author Tote
  */
-public class core {
+public class core extends Thread {
     //declaramos todos los objetos y variables que vamos a necesitar
     private int puerto =8889;
     private mensajeria mensaje;
@@ -45,5 +45,12 @@ public class core {
             System.out.println("Error al abrir el puerto");
         }
     }
+
+    @Override
+    public void run() {
+        initServer();
+    }
+    
+    
     
 }
