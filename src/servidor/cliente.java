@@ -40,10 +40,10 @@ public class cliente extends Thread {
      * @param hilos el array de hilos donde estarán todos los clientes , esto es
      * necesario para realizar la silumación de un mensaje multicast, ya que cuando 
      * un cliente escriba debe llegar a todos los usuarios conectados.
-     * @param field
-     * @param area
-     * @param nombreClientes
-     * @param control
+     * @param field area donde se muestra el número total de usuarios
+     * @param area area de texto donde se muestra todos los mensajes del sistema y de los clientes
+     * @param nombreClientes un listado con los nombres de los clientes
+     * @param control objeto que se encarga del envio de la lista de los usuairos conectados
      */
     public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes,coreControl control) {
         this.canal = canal;
@@ -147,6 +147,8 @@ public class cliente extends Thread {
                 break;
             }
         }
+        //eliminamos el canal que se encuentra a la escucha del otro puerto
+        control.eliminaCanal(canal.getInetAddress().getHostAddress());
         //llamo al método que envia la lista de usuarios de nuevo a los clientes
         control.envioListadoUsuarios();
         // modificamos la variable session para que termine el bucle y su
