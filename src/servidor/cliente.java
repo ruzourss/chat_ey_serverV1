@@ -109,7 +109,7 @@ public class cliente extends Thread {
                                 exit();
                             }
                             //escribimos el mensaje
-                            mensaje.escribir(cadena, hilos, this);
+                            mensaje.escribir(cadena, this);
                         }
                     break;
                         default:
