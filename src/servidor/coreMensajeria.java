@@ -24,7 +24,7 @@ public class coreMensajeria extends Thread {
  * constructor por defecto que inicializa el objeto mensaje y la lista de clientes.
  */
     public coreMensajeria(JTextField field,JTextArea area) {
-        mensaje = new mensajeria();
+        mensaje = new mensajeria(area);
         hilos =  new ArrayList<>();
         this.field=field;
         this.area=area;
@@ -35,7 +35,7 @@ public class coreMensajeria extends Thread {
     public void initServer(){
         try {
             ServerSocket s = new ServerSocket(puerto);
-            
+            area.append("Iniciado servicio de mensajería puerto: "+puerto);
             while(true){
                 
                 Socket canal = s.accept();
@@ -45,8 +45,6 @@ public class coreMensajeria extends Thread {
                 hilos.add(cliente);
                 cliente.start();
             }
-            
-            
         } catch (IOException ex) {
             System.out.println("Error al abrir el puerto");
         }
