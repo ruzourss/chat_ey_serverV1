@@ -124,7 +124,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     private void iniciarServidor(){
         ArrayList<cliente> hilos = new ArrayList<>();
         ArrayList<String> nombreClientes = new ArrayList<>();
-        mensajeria mensaje = new mensajeria(jTextAreaChatGeneral);
+        mensajeria mensaje = new mensajeria(jTextAreaChatGeneral,hilos);
         coreControl control = new coreControl(9900, nombreClientes, jTextAreaChatGeneral);
         control.start();
         new coreMensajeria(hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,control).start();
