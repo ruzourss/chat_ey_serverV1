@@ -19,12 +19,14 @@ public class cliente extends Thread {
     private Socket canal;
     private mensajeria mensaje;
     private String cadenaRecibida;
-    private ArrayList<cliente> hilos; 
+    private ArrayList<cliente> hilos;
+    private ArrayList<String> nombreClientes;
     private ObjectOutputStream ObjectOutput;
     private ObjectInputStream ObjectInput;
     private boolean session=true;
     private JTextField field;
     private JTextArea area;
+    private coreControl control;
     
     /**
      * Constructor por defecto
@@ -40,12 +42,16 @@ public class cliente extends Thread {
      * un cliente escriba debe llegar a todos los usuarios conectados.
      * @param field
      * @param area
+     * @param nombreClientes
+     * @param control
      */
-    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area ) {
+    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes,coreControl control) {
         this.canal = canal;
         this.mensaje = mensaje;
         this.hilos=hilos;
         this.area=area;
+        this.nombreClientes=nombreClientes;
+        this.control=control;
     }
     
     @Override
@@ -76,6 +82,9 @@ public class cliente extends Thread {
                                 //modificamos el nombre del hilo si es el correcto
                                 setName(nick);
                                 area.setText(area.getText()+">Entra en el chat..."+nick+"\n");
+                                //añadimos el nombre a la lista que la debemos enviar
+                                nombreClientes.add(nick);
+                                control.envioListadoUsuarios();
                                 field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());
                             }else{
                                 ObjectOutput.writeUTF(estados.NICK_ERROR);
@@ -129,6 +138,17 @@ public class cliente extends Thread {
                 break;
             }
         }
+        /*
+        Eliminamos de la lista el nombre del cliente que se ha desconectado
+        */
+        for(int i=0;i<nombreClientes.size();i++){
+            if(nombreClientes.get(i).equals(this.getName())){
+                nombreClientes.remove(i);
+                break;
+            }
+        }
+        //llamo al método que envia la lista de usuarios de nuevo a los clientes
+        control.envioListadoUsuarios();
         // modificamos la variable session para que termine el bucle y su
         // ejecución
         session=false;
