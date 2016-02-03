@@ -75,6 +75,7 @@ public class cliente extends Thread {
                                 ObjectOutput.flush();
                                 //modificamos el nombre del hilo si es el correcto
                                 setName(nick);
+                                area.setText(area.getText()+">Entra en el chat..."+nick+"\n");
                                 field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());
                             }else{
                                 ObjectOutput.writeUTF(estados.NICK_ERROR);
@@ -83,6 +84,7 @@ public class cliente extends Thread {
                     break;
                     case estados.GET_RECORD:
                         //Aqui es donde le envia el historia de mensajes
+                        ObjectOutput.writeObject(mensaje.getMensajes());
                         
                     break;
                     case estados.SEND_MESSAGES:
@@ -97,7 +99,8 @@ public class cliente extends Thread {
                             if(cadena.equals(estados.EXIT)){
                                 exit();
                             }
-                            System.out.println(cadena);
+                            //escribimos el mensaje
+                            mensaje.escribir(cadena, hilos, this);
                         }
                     break;
                         default:
@@ -105,16 +108,12 @@ public class cliente extends Thread {
                             area.setText(area.getText()+" Mensaje desconocido, recibe: "+cadenaRecibida);
                     break;  
                 }
-            }
-            
+            }//-->fin while
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }
-    
-    
-    
+    }//-->fin leer()
     /**
      * Método que elimina del array el hilo que quiere cerrar la conexión
      * y pone la variable sesión a false para que se salga del bucle
