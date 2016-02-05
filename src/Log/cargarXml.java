@@ -36,19 +36,25 @@ public class cargarXml {
             System.out.println("Direccion del servidor: " + direccionIP );
             //Se obtiene la lista de hijos del tag 'config'
             List lista_campos = config.getChildren();
-            System.out.println( "\tDireccion IP\t\tPuerto\t\tValor" );
+            System.out.println( "\t\tPuerto de mensajeria\t\tPuerto de control"
+                    + "\t\tNumero de usuarios\t\tTamaño de Buffer\t\tLog\t\tInfo. Conexion" );
             //Se recorre la lista de campos
             for (Object lista_campo : lista_campos) {
                 //Se obtiene el elemento 'campo'
                 Element campo = (Element) lista_campo;
-                //Se obtienen los valores que estan entre los tags '<campo></campo>'
-                //Se obtiene el valor que esta entre los tags '<nombre></nombre>'
-                String direccion = campo.getChildTextTrim("direccion");
-                //Se obtiene el valor que esta entre los tags '<tipo></tipo>'
-                String puerto = campo.getChildTextTrim("puerto");
-                //Se obtiene el valor que esta entre los tags '<valor></valor>'
-                String valor = campo.getChildTextTrim("valor");
-                System.out.println("\t"+direccion+"\t\t"+puerto+"\t\t"+valor);
+                //Se obtiene el valor que esta entre los tags '<puertom></puertom>'
+                String puertom = campo.getChildTextTrim("puertom");
+                //Se obtiene el valor que esta entre los tags '<puertoc></puertoc>'
+                String puertoc = campo.getChildTextTrim("puertoc");
+                //Se obtiene el valor que esta entre los tags '<numuser></numuser>'
+                String numuser = campo.getChildTextTrim("numuser");
+                //Se obtiene el valor que esta entre los tags '<tambuffer></tambuffer>'
+                String tambuffer = campo.getChildTextTrim("tambuffer");
+                //Se obtiene el valor que esta entre los tags '<log></log>'
+                String log = campo.getChildTextTrim("log");
+                //Se obtiene el valor que esta entre los tags '<infocon></infocon>'
+                String infocon = campo.getChildTextTrim("infocon");
+                System.out.println("\t"+puertom+"\t\t"+puertoc+"\t\t"+numuser+"\t\t"+tambuffer+"\t\t"+log+"\t\t"+infocon);
             }
         }
     }catch ( IOException | JDOMException io ) {
