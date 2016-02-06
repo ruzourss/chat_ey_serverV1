@@ -17,24 +17,25 @@ public class LeerXml {
     SAXBuilder builder = new SAXBuilder();
     File xmlFile = new File( "config.xml" );
     try
-    {
+    {   /**
+        * El archivo se creara en el directorio raíz 
+        */
         //Se crea el documento a traves del archivo
         Document document = (Document) builder.build( xmlFile );
  
-        //Se obtiene la raiz 'tables'
+        //Se obtiene la raiz 'config'
         Element rootNode = document.getRootElement();
  
-        //Se obtiene la lista de hijos de la raiz 'tables'
-        List list = rootNode.getChildren( "configuracion" );
- 
-        //Se recorre la lista de hijos de 'tables'
+        //Se obtiene la lista de hijos de la raiz 'config'
+        List list = rootNode.getChildren("configuracion");
+        //Se recorre la lista de hijos de 'config'
         for (Object list1 : list) {
             //Se obtiene el elemento 'config'
             Element config = (Element) list1;
             //Se obtiene la lista de hijos del tag 'config'
             List lista_campos = config.getChildren();
-            System.out.println( "\t\tPuerto de mensajeria\t\tPuerto de control"
-                    + "\t\tNumero de usuarios\t\tTamaño de Buffer\t\tLog\t\tInfo. Conexion" );
+//            System.out.println( "\t\tPuerto de mensajeria\t\tPuerto de control"
+//                    + "\t\tNumero de usuarios\t\tTamaño de Buffer\t\tLog\t\tInfo. Conexion" );
             //Se recorre la lista de campos
             for (Object lista_campo : lista_campos) {
                 //Se obtiene el elemento 'campo'

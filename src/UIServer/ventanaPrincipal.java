@@ -1,5 +1,8 @@
 package UIServer;
 
+
+import Log.EscribirXml;
+import Log.LeerXml;
 import servidor.core;
 
 /**
@@ -7,7 +10,8 @@ import servidor.core;
  * @author Tautvydas Bagocius
  */
 public class ventanaPrincipal extends javax.swing.JFrame {
-
+    EscribirXml escribir = new EscribirXml();
+    LeerXml leer = new LeerXml();
     /**
      * Creates new form ventanaPrincipal
      */
@@ -16,6 +20,8 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("VENTANA DEL SERVIDOR DE CHAT");
         iniciarServidor();
+        escribir.Escribir();
+        leer.cargarXml();
         jTextFieldNumeroConexiones.setText("NÚMERO DE CONEXIONES ACTUALES: 0");
     }
 
@@ -110,11 +116,14 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ventanaPrincipal().setVisible(true);
             }
+            
         });
+        
     }
     
     private void iniciarServidor(){
