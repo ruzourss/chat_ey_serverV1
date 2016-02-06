@@ -1,4 +1,6 @@
 package Log;
+import java.beans.PropertyChangeSupport;
+import java.beans.VetoableChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -11,6 +13,21 @@ import org.jdom2.input.SAXBuilder; // |
  * @author Lyderys
  */
 public class LeerXml {
+    public static final String PROP_PUERTOM = "PROP_PUERTOM";
+    public static final String PROP_PUERTOC = "PROP_PUERTOC";
+    public static final String PROP_NUMUSER = "PROP_NUMUSER";
+    public static final String PROP_TAMBUFFER = "PROP_TAMBUFFER";
+    public static final String PROP_LOG = "PROP_LOG";
+    public static final String PROP_INFOCON = "PROP_INFOCON";
+    private String puertom;
+    private String puertoc;
+    private String numuser;
+    private String tambuffer;
+    private String log;
+    private String infocon;
+    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+    private final transient VetoableChangeSupport vetoableChangeSupport = new java.beans.VetoableChangeSupport(this);
+
     public void cargarXml()
 {
     //Se crea un SAXBuilder para poder parsear el archivo
@@ -41,17 +58,17 @@ public class LeerXml {
                 //Se obtiene el elemento 'campo'
                 Element campo = (Element) lista_campo;
                 //Se obtiene el valor que esta entre los tags '<puertom></puertom>'
-                String puertom = campo.getChildTextTrim("puertom");
+                this.puertom = campo.getChildTextTrim("puertom");
                 //Se obtiene el valor que esta entre los tags '<puertoc></puertoc>'
-                String puertoc = campo.getChildTextTrim("puertoc");
+                this.puertoc = campo.getChildTextTrim("puertoc");
                 //Se obtiene el valor que esta entre los tags '<numuser></numuser>'
-                String numuser = campo.getChildTextTrim("numuser");
+                this.numuser = campo.getChildTextTrim("numuser");
                 //Se obtiene el valor que esta entre los tags '<tambuffer></tambuffer>'
-                String tambuffer = campo.getChildTextTrim("tambuffer");
+                this.tambuffer = campo.getChildTextTrim("tambuffer");
                 //Se obtiene el valor que esta entre los tags '<log></log>'
-                String log = campo.getChildTextTrim("log");
+                this.log = campo.getChildTextTrim("log");
                 //Se obtiene el valor que esta entre los tags '<infocon></infocon>'
-                String infocon = campo.getChildTextTrim("infocon");
+                this.infocon = campo.getChildTextTrim("infocon");
                 System.out.println("\t"+puertom+"\t\t"+puertoc+"\t\t"+numuser+"\t\t"+tambuffer+"\t\t"+log+"\t\t"+infocon);
             }
         }
@@ -59,4 +76,46 @@ public class LeerXml {
         System.out.println( io.getMessage() );
     }
 }
+
+    /**
+     * @return the puertom
+     */
+    public String getPuertom() {
+        return puertom;
+    }
+
+    /**
+     * @return the puertoc
+     */
+    public String getPuertoc() {
+        return puertoc;
+    }
+
+    /**
+     * @return the numuser
+     */
+    public String getNumuser() {
+        return numuser;
+    }
+
+    /**
+     * @return the tambuffer
+     */
+    public String getTambuffer() {
+        return tambuffer;
+    }
+
+    /**
+     * @return the log
+     */
+    public String getLog() {
+        return log;
+    }
+
+    /**
+     * @return the infocon
+     */
+    public String getInfocon() {
+        return infocon;
+    }
 }

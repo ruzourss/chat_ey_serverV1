@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <configuracion>
+    <campos>
+      <puertom>PUERTO_DE_MENSAJERIA</puertom>
+      <puertoc>PUERTO_DE_CONTROL</puertoc>
+      <numuser>NUMERO_DE_USUARIOS</numuser>
+      <tambuffer>TAMAÑO_DE_BUFFER</tambuffer>
+      <log>FICHERO_PARA_EL_LOG</log>
+      <infocon>INFORMACION_DE_CONEXION</infocon>
+    </campos>
+  </configuracion>
+</config>
