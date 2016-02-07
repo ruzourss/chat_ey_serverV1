@@ -25,6 +25,7 @@ public class LeerXml {
     private String tambuffer;
     private String log;
     private String infocon;
+    private final String Configuracion[] = new String[4];
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     private final transient VetoableChangeSupport vetoableChangeSupport = new java.beans.VetoableChangeSupport(this);
 
@@ -117,5 +118,17 @@ public class LeerXml {
      */
     public String getInfocon() {
         return infocon;
+    }
+
+    /**
+     * @return the Configuracion
+     */
+    public String[] getConfiguracion() {
+        this.Configuracion[0]=puertom;
+        this.Configuracion[1]=puertoc;
+        this.Configuracion[2]=numuser;
+        this.Configuracion[3]=tambuffer;
+        this.Configuracion[4]=log;
+        return Configuracion;
     }
 }
