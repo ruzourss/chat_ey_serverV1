@@ -68,8 +68,8 @@ public class LeerXml {
                 //Se obtiene el valor que esta entre los tags '<log></log>'
                 this.log = campo.getChildTextTrim("log");
                 //Se obtiene el valor que esta entre los tags '<infocon></infocon>'
-                this.infocon = campo.getChildTextTrim("infocon");
-                System.out.println("\t"+puertom+"\t\t"+puertoc+"\t\t"+numuser+"\t\t"+tambuffer+"\t\t"+log+"\t\t"+infocon);
+//                this.infocon = campo.getChildTextTrim("infocon");
+                System.out.println("\t"+puertom+"\t\t"+puertoc+"\t\t"+numuser+"\t\t"+tambuffer+"\t\t"+log);
             }
         }
     }catch ( IOException | JDOMException io ) {

@@ -16,12 +16,12 @@ public class EscribirXml {
         Element configuracion = new Element("configuracion");
         Element campos = new Element("campos");
         configuracion.addContent(campos);
-        campos.addContent(new Element("puertom").setText("PUERTO_DE_MENSAJERIA"));
-        campos.addContent(new Element("puertoc").setText("PUERTO_DE_CONTROL"));
-        campos.addContent(new Element("numuser").setText("NUMERO_DE_USUARIOS"));
-        campos.addContent(new Element("tambuffer").setText("TAMAÑO_DE_BUFFER"));
-        campos.addContent(new Element("log").setText("FICHERO_PARA_EL_LOG"));
-        campos.addContent(new Element("infocon").setText("INFORMACION_DE_CONEXION"));
+        campos.addContent(new Element("puertom").setText("9000"));
+        campos.addContent(new Element("puertoc").setText("9900"));
+        campos.addContent(new Element("numuser").setText("10"));
+        campos.addContent(new Element("tambuffer").setText("25"));
+        campos.addContent(new Element("log").setText("log.txt"));
+//        campos.addContent(new Element("infocon").setText("INFORMACION_DE_CONEXION"));
         doc.getRootElement().addContent(configuracion);
         XMLOutputter xmlOutput = new XMLOutputter();
         xmlOutput.setFormat(Format.getPrettyFormat());
