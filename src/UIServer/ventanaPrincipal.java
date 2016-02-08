@@ -10,8 +10,6 @@ import servidor.core;
  * @author Tautvydas Bagocius
  */
 public class ventanaPrincipal extends javax.swing.JFrame {
-    EscribirXml escribir = new EscribirXml();
-    LeerXml leer = new LeerXml();
     /**
      * Creates new form ventanaPrincipal
      */
@@ -20,8 +18,6 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("VENTANA DEL SERVIDOR DE CHAT");
         iniciarServidor();
-        escribir.Escribir();
-        leer.cargarXml();
         jTextFieldNumeroConexiones.setText("NÚMERO DE CONEXIONES ACTUALES: 0");
     }
 
