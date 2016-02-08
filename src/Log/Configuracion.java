@@ -11,7 +11,10 @@ public class Configuracion {
     public String numuser;
     public String tambuffer;
     public String log;
+    
     public Configuracion(){
+        EscribirXml escribirXml = new EscribirXml();
+        escribirXml.Escribir();
         LeerXml leer = new LeerXml();
         leer.cargarXml();
         Config=leer.getConfiguracion();
