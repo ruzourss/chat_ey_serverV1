@@ -13,21 +13,31 @@ import javax.swing.JTextField;
  * se le pasa la conexión.
  * @author Tote
  */
-public class core extends Thread {
+public class coreMensajeria extends Thread {
     //declaramos todos los objetos y variables que vamos a necesitar
-    private int puerto =8889;
-    private mensajeria mensaje;
-    private ArrayList<cliente> hilos;
-    private JTextField field;
-    private JTextArea area;
+    private final int puerto =8889;
+    private final mensajeria mensaje;
+    private final ArrayList<cliente> hilos;
+    private final ArrayList<String> nombreClientes;
+    private final JTextField field;
+    private final JTextArea area;
+    private coreControl control;
 /**
  * constructor por defecto que inicializa el objeto mensaje y la lista de clientes.
+     * @param hilos
+     * @param nombreClientes
+     * @param mensaje
+     * @param field
+     * @param area
+     * @param control
  */
-    public core(JTextField field,JTextArea area) {
-        mensaje = new mensajeria();
-        hilos =  new ArrayList<>();
+    public coreMensajeria(ArrayList<cliente> hilos,ArrayList<String> nombreClientes,mensajeria mensaje,JTextField field,JTextArea area,coreControl control) {
+        this.hilos=hilos;
+        this.nombreClientes=nombreClientes;
+        this.mensaje=mensaje;
         this.field=field;
         this.area=area;
+        this.control=control;
     }
     /**
      * método que arranca el servidor. Esta en un bucle infinito
@@ -35,18 +45,16 @@ public class core extends Thread {
     public void initServer(){
         try {
             ServerSocket s = new ServerSocket(puerto);
-            
+            area.append("Iniciado servicio de mensajería puerto: "+puerto+"\n");
             while(true){
                 
                 Socket canal = s.accept();
                 System.out.println("Conexión establecida");
                 
-                cliente cliente = new cliente(canal, mensaje,hilos,field,area);
+                cliente cliente = new cliente(canal, mensaje,hilos,field,area,nombreClientes,control);
                 hilos.add(cliente);
                 cliente.start();
             }
-            
-            
         } catch (IOException ex) {
             System.out.println("Error al abrir el puerto");
         }
@@ -56,7 +64,4 @@ public class core extends Thread {
     public void run() {
         initServer();
     }
-    
-    
-    
 }

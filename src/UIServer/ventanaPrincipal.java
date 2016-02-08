@@ -1,8 +1,10 @@
 package UIServer;
 
-
-
-import servidor.core;
+import java.util.ArrayList;
+import servidor.cliente;
+import servidor.coreControl;
+import servidor.coreMensajeria;
+import servidor.mensajeria;
 
 /**
  *
@@ -122,7 +124,13 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     }
     
     private void iniciarServidor(){
-        new core(jTextFieldNumeroConexiones,jTextAreaChatGeneral).start();
+        ArrayList<cliente> hilos = new ArrayList<>();
+        ArrayList<String> nombreClientes = new ArrayList<>();
+        mensajeria mensaje = new mensajeria(jTextAreaChatGeneral,hilos);
+        coreControl control = new coreControl(9900, nombreClientes, jTextAreaChatGeneral);
+        control.start();
+        new coreMensajeria(hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,control).start();
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
