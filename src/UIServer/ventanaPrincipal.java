@@ -1,5 +1,6 @@
 package UIServer;
 
+import Log.Configuracion;
 import java.util.ArrayList;
 import servidor.cliente;
 import servidor.coreControl;
@@ -122,10 +123,11 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     }
     
     private void iniciarServidor(){
+        Configuracion conf = new Configuracion();
         ArrayList<cliente> hilos = new ArrayList<>();
         ArrayList<String> nombreClientes = new ArrayList<>();
         mensajeria mensaje = new mensajeria(jTextAreaChatGeneral,hilos);
-        coreControl control = new coreControl(9900, nombreClientes, jTextAreaChatGeneral);
+        coreControl control = new coreControl(9700, nombreClientes, jTextAreaChatGeneral);
         control.start();
         new coreMensajeria(hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,control).start();
         

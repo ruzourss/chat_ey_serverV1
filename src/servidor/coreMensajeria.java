@@ -15,7 +15,7 @@ import javax.swing.JTextField;
  */
 public class coreMensajeria extends Thread {
     //declaramos todos los objetos y variables que vamos a necesitar
-    private final int puerto =8889;
+    private final int puerto =9000;
     private final mensajeria mensaje;
     private final ArrayList<cliente> hilos;
     private final ArrayList<String> nombreClientes;
