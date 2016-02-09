@@ -2,12 +2,11 @@
 <config>
   <configuracion>
     <campos>
-      <puertom>PUERTO_DE_MENSAJERIA</puertom>
-      <puertoc>PUERTO_DE_CONTROL</puertoc>
-      <numuser>NUMERO_DE_USUARIOS</numuser>
-      <tambuffer>TAMAÑO_DE_BUFFER</tambuffer>
-      <log>FICHERO_PARA_EL_LOG</log>
-      <infocon>INFORMACION_DE_CONEXION</infocon>
+      <puertom>9000</puertom>
+      <puertoc>9900</puertoc>
+      <numuser>10</numuser>
+      <tambuffer>25</tambuffer>
+      <log>log.txt</log>
     </campos>
   </configuracion>
 </config>
