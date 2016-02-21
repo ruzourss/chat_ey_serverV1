@@ -163,7 +163,7 @@ public class cliente extends Thread {
     public void escribir(String cadena){
         try {
             System.out.println("Enviar: "+cadena);
-            ObjectOutput.writeUTF(cadena);
+            ObjectOutput.writeObject(cadena);
             ObjectOutput.flush();
         } catch (IOException ex) {
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);

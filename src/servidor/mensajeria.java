@@ -10,17 +10,21 @@ import javax.swing.JTextArea;
 public class mensajeria {
     
     //Declaramos los objetos que vamos a necesitar
-    private ArrayList<String> mensajes;
-    private JTextArea area;
-    private ArrayList<cliente> clientes;
+    private final ArrayList<String> mensajes;
+    private final JTextArea area;
+    private final ArrayList<cliente> clientes;
+    private final int tamanioBuffer;
     /**
      * Constructor que recibe el area donde escribir el mensaje recibido
      * @param area area donde se escribe el mensaje
+     * @param clientes
+     * @param tamanioBuffer
      */
-    public mensajeria(JTextArea area, ArrayList<cliente> clientes) {
+    public mensajeria(JTextArea area, ArrayList<cliente> clientes, int tamanioBuffer) {
         mensajes = new ArrayList<>();
         this.area=area;
         this.clientes=clientes;
+        this.tamanioBuffer=tamanioBuffer;
     }
     /**
      * Método que es llamado desde un hilo y le envia tres parámetros
@@ -29,7 +33,7 @@ public class mensajeria {
      */
     public void escribir(String cadena, Thread hilo){
         area.append(hilo.getName()+">"+cadena+"\n");
-        if(getMensajes().size()>25){
+        if(getMensajes().size()>tamanioBuffer){
             getMensajes().remove(0);
         }
         //añadimos la cadena al array

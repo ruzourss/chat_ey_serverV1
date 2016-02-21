@@ -8,7 +8,8 @@ import servidor.coreMensajeria;
 import servidor.mensajeria;
 
 /**
- *
+ * ventana principal del servidor, que contendrá 
+ * el número total de usuarios y el log de mensajes enviados
  * @author Tautvydas Bagocius
  */
 public class ventanaPrincipal extends javax.swing.JFrame {
@@ -42,11 +43,6 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         setResizable(false);
 
         jTextFieldNumeroConexiones.setEditable(false);
-        jTextFieldNumeroConexiones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNumeroConexionesActionPerformed(evt);
-            }
-        });
 
         jButtonSalir.setText("SALIR");
 
@@ -83,10 +79,6 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldNumeroConexionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumeroConexionesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNumeroConexionesActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -116,20 +108,31 @@ public class ventanaPrincipal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ventanaPrincipal().setVisible(true);
             }
         });
     }
-    
+    /**
+     * Método principla que arranca el servidor
+     * 1-Instanciamos el objeto configuración que contiene toda la configuración necesaria para que funcione
+     * 2-Instanciamos la lista de clientes que serán hilos
+     * 3-Instanciamos un array de nombreClientes
+     * 4-Instanciamos el objeto mensajeria que es el encargado de trabajar con los mensajes recibidos y realizar
+     * un control de máximo de mensajes a guardar
+     * 5-Instanciamos el coreDeControl que es el encargado de enviar la lista de clientes que estan conectados actualmente
+     * 6-Instanciamos el coreMensajeria que es el encargado de lanzar el puerto de escucha para recibir e enviar los mensajes
+     * de cada cliente
+     */
     private void iniciarServidor(){
         Configuracion configuracion = new Configuracion();
         ArrayList<cliente> hilos = new ArrayList<>();
         ArrayList<String> nombreClientes = new ArrayList<>();
-        mensajeria mensaje = new mensajeria(jTextAreaChatGeneral,hilos);
+        mensajeria mensaje = new mensajeria(jTextAreaChatGeneral,hilos,Integer.valueOf(configuracion.tambuffer));
         coreControl control = new coreControl(Integer.valueOf(configuracion.puertoc), nombreClientes, jTextAreaChatGeneral);
         control.start();
-        new coreMensajeria(Integer.valueOf(configuracion.puertom),hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,control).start();
+        new coreMensajeria(Integer.valueOf(configuracion.puertom),hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,control,Integer.valueOf(configuracion.numuser)).start();
         
     }
 

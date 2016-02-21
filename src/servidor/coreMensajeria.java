@@ -21,17 +21,20 @@ public class coreMensajeria extends Thread {
     private final ArrayList<String> nombreClientes;
     private final JTextField field;
     private final JTextArea area;
-    private coreControl control;
+    private final coreControl control;
+    private final int numeroUsuarios;
 /**
  * constructor por defecto que inicializa el objeto mensaje y la lista de clientes.
+     * @param puerto
      * @param hilos
      * @param nombreClientes
      * @param mensaje
      * @param field
      * @param area
      * @param control
+     * @param numeroUsuarios
  */
-    public coreMensajeria(int puerto,ArrayList<cliente> hilos,ArrayList<String> nombreClientes,mensajeria mensaje,JTextField field,JTextArea area,coreControl control) {
+    public coreMensajeria(int puerto,ArrayList<cliente> hilos,ArrayList<String> nombreClientes,mensajeria mensaje,JTextField field,JTextArea area,coreControl control,int numeroUsuarios) {
         this.puerto=puerto;
         this.hilos=hilos;
         this.nombreClientes=nombreClientes;
@@ -39,6 +42,7 @@ public class coreMensajeria extends Thread {
         this.field=field;
         this.area=area;
         this.control=control;
+        this.numeroUsuarios=numeroUsuarios;
     }
     /**
      * método que arranca el servidor. Esta en un bucle infinito
@@ -48,14 +52,19 @@ public class coreMensajeria extends Thread {
             ServerSocket s = new ServerSocket(puerto);
             area.append("Iniciado servicio de mensajería puerto: "+puerto+"\n");
             while(true){
-                
                 Socket canal = s.accept();
-                System.out.println("Conexión establecida");
-                
-                cliente cliente = new cliente(canal, mensaje,hilos,field,area,nombreClientes,control);
-                hilos.add(cliente);
-                cliente.start();
-            }
+                //Si el tamaño del array de clientes es menor e igual que el numero de usuarios establecidos
+                //lanzamos el hilo.
+                if(hilos.size()<=numeroUsuarios){
+                    cliente cliente = new cliente(canal, mensaje,hilos,field,area,nombreClientes,control);
+                    hilos.add(cliente);
+                    cliente.start();
+                }else{
+                    //en caso de que ya tenemos limite de conexiones
+                    //cerramos el canal establecido
+                    canal.close();
+                }
+            }//-->fin while
         } catch (IOException ex) {
             System.out.println("Error al abrir el puerto");
         }
