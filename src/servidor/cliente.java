@@ -52,6 +52,7 @@ public class cliente extends Thread {
         this.area=area;
         this.nombreClientes=nombreClientes;
         this.control=control;
+        this.field=field;
     }
     
     @Override
@@ -92,9 +93,11 @@ public class cliente extends Thread {
                             }
                     break;
                     case estados.GET_RECORD:
+                        System.out.println("pide el historial");
                         //Aqui es donde le envia el historia de mensajes
                         ObjectOutput.writeObject(mensaje.getMensajes());
-                        
+                        ObjectOutput.flush();
+                        System.out.println("le envio el hitorial");
                     break;
                     case estados.SEND_MESSAGES:
                         //el cliente le avisa al servidor que este preparado para recibir 
