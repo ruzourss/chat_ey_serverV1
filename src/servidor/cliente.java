@@ -88,8 +88,13 @@ public class cliente extends Thread {
                                 control.envioListadoUsuarios();
                                 field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());
                             }else{
+                                //en caso de que el nick no sea el correcto 
+                                //avisamos al cliente
                                 ObjectOutput.writeUTF(estados.NICK_ERROR);
                                 ObjectOutput.flush();
+                                //modificamos la variable de session para que no se
+                                //ejecute más el bucle y cierre esta session
+                                exit();       
                             }
                     break;
                     case estados.GET_RECORD:
@@ -122,7 +127,8 @@ public class cliente extends Thread {
                 }
             }//-->fin while
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+            area.append(this.getName()+" se ha desconectado \n");
+            session=false;
         }
         
     }//-->fin leer()
@@ -150,12 +156,12 @@ public class cliente extends Thread {
                 break;
             }
         }
-        //eliminamos el canal que se encuentra a la escucha del otro puerto
-        control.eliminaCanal(canal.getInetAddress().getHostAddress());
-        //llamo al método que envia la lista de usuarios de nuevo a los clientes
-        control.envioListadoUsuarios();
-        // modificamos la variable session para que termine el bucle y su
-        // ejecución
+//        //eliminamos el canal que se encuentra a la escucha del otro puerto
+//        control.eliminaCanal(canal.getInetAddress().getHostAddress());
+//        //llamo al método que envia la lista de usuarios de nuevo a los clientes
+//        control.envioListadoUsuarios();
+//        // modificamos la variable session para que termine el bucle y su
+//        // ejecución
         session=false;
     }
     /**

@@ -1,5 +1,6 @@
 package servidor;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -59,7 +60,8 @@ public class coreControl extends Thread{
                 new ObjectOutputStream(canal.getOutputStream()).writeObject(clientes);             
             }
         } catch (IOException ex) {
-            Logger.getLogger(coreControl.class.getName()).log(Level.SEVERE, null, ex);
+            area.setBackground(Color.red);
+            area.setText("ERROR: no se puede inicar el servidor del chat, revise el puerto");
         }
     }
     /**
