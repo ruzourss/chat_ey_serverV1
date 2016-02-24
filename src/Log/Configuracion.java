@@ -5,7 +5,7 @@ package Log;
  * @author Lyderys
  */
 public class Configuracion {
-    public String Config[] = new String[4];
+    public String Config[] = new String[5];
     public String puertom;
     public String puertoc;
     public String numuser;
