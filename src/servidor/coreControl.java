@@ -2,10 +2,13 @@ package servidor;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextArea;
@@ -22,7 +25,11 @@ public class coreControl extends Thread{
     private Socket canal;
     private ArrayList<Socket> contenedorCanales;
     private ArrayList<String> clientes;
+    private ArrayList<String> niks;
     private JTextArea area;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private Map<String,Socket> canales;
     /**
      * Constructor que recibe el numero de puerto, lista de clientes y el area
      * de escribir mensajes
@@ -32,9 +39,11 @@ public class coreControl extends Thread{
      */
     public coreControl(int puerto,ArrayList<String> clientes,JTextArea area) {
         this.puerto=puerto;
-        contenedorCanales = new ArrayList<>();
         this.clientes=clientes;
         this.area=area;
+        contenedorCanales = new ArrayList<>();
+        niks = new ArrayList<>();
+        canales = new HashMap<>();
     }
     
     @Override
@@ -54,10 +63,11 @@ public class coreControl extends Thread{
             while(true){
                 //a la espera de que se conecte alguien
                 canal = server.accept();
+                System.out.println("Conexión establecida por el puerto de control");
                 //añadimos el canal en un array
                 contenedorCanales.add(canal);
                 //le enviamos en la primera conexión el litado total de los usuarios
-                new ObjectOutputStream(canal.getOutputStream()).writeObject(clientes);             
+                envioListadoUsuarios();
             }
         } catch (IOException ex) {
             area.setBackground(Color.red);
@@ -68,10 +78,12 @@ public class coreControl extends Thread{
      * Método que será ejecutado por cada hilo cuando el usuario se ha conectado 
      * correctamente para avisar a los demás usuarios del usuario nuevo
      */
-    public void envioListadoUsuarios(){ 
+    public void envioListadoUsuarios(){
         for(int i=0;i<contenedorCanales.size();i++){
            try {
-                new ObjectOutputStream(contenedorCanales.get(i).getOutputStream()).writeObject(clientes);
+               out= new ObjectOutputStream(contenedorCanales.get(i).getOutputStream());
+               out.writeObject(clientes);
+               out.flush();
             } catch (IOException ex) {
                 Logger.getLogger(coreControl.class.getName()).log(Level.SEVERE, null, ex);
             } 
@@ -86,10 +98,25 @@ public class coreControl extends Thread{
     public void eliminaCanal(String direccionIP){
         for(int i=0;i<contenedorCanales.size();i++){
             if(contenedorCanales.get(i).getInetAddress().getHostAddress().equals(direccionIP)){
+                
                 contenedorCanales.remove(i);
                 break;
             }
         }
     }
     
+    private void obtenerDatosDelCliente(){
+        String nick;
+        try {
+            in = new ObjectInputStream(canal.getInputStream());
+            nick = (String) in.readObject();
+        } catch (IOException ex) {
+            Logger.getLogger(coreControl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(coreControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    }
 }

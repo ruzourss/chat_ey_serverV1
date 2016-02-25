@@ -81,10 +81,10 @@ public class cliente extends Thread {
                                 ObjectOutput.writeUTF(estados.NICK_OK);
                                 ObjectOutput.flush();
                                 //modificamos el nombre del hilo si es el correcto
-                                setName(nick);
+                                this.setName(nick);
                                 area.setText(area.getText()+">Entra en el chat..."+nick+"\n");
                                 //añadimos el nombre a la lista que la debemos enviar
-                                nombreClientes.add(nick);
+                                nombreClientes.add(this.getName());
                                 control.envioListadoUsuarios();
                                 field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());
                             }else{
@@ -92,8 +92,7 @@ public class cliente extends Thread {
                                 //avisamos al cliente
                                 ObjectOutput.writeUTF(estados.NICK_ERROR);
                                 ObjectOutput.flush();
-                                //modificamos la variable de session para que no se
-                                //ejecute más el bucle y cierre esta session
+                                //en caso de que el nick no sea el correcto salimos y cerramos el canal
                                 exit();       
                             }
                     break;
@@ -128,7 +127,7 @@ public class cliente extends Thread {
             }//-->fin while
         } catch (IOException | ClassNotFoundException ex) {
             area.append(this.getName()+" se ha desconectado \n");
-            session=false;
+            exit(); 
         }
         
     }//-->fin leer()
@@ -156,12 +155,12 @@ public class cliente extends Thread {
                 break;
             }
         }
-//        //eliminamos el canal que se encuentra a la escucha del otro puerto
-//        control.eliminaCanal(canal.getInetAddress().getHostAddress());
-//        //llamo al método que envia la lista de usuarios de nuevo a los clientes
-//        control.envioListadoUsuarios();
-//        // modificamos la variable session para que termine el bucle y su
-//        // ejecución
+        //eliminamos el canal que se encuentra a la escucha del otro puerto
+        control.eliminaCanal(canal.getInetAddress().getHostAddress());
+        //llamo al método que envia la lista de usuarios de nuevo a los clientes
+        control.envioListadoUsuarios();
+        // modificamos la variable session para que termine el bucle y su
+        // ejecución
         session=false;
     }
     /**
