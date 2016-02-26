@@ -27,7 +27,7 @@ public class coreControl extends Thread{
     private ArrayList<String> clientes;
     private ArrayList<String> niks;
     private JTextArea area;
-    private ObjectOutputStream out;
+    private outObject out;
     private ObjectInputStream in;
     private Map<String,Socket> canales;
     /**
@@ -81,7 +81,7 @@ public class coreControl extends Thread{
     public void envioListadoUsuarios(){
         for(int i=0;i<contenedorCanales.size();i++){
            try {
-               out= new ObjectOutputStream(contenedorCanales.get(i).getOutputStream());
+               out= new outObject(contenedorCanales.get(i).getOutputStream());
                out.writeObject(clientes);
                out.flush();
             } catch (IOException ex) {
@@ -98,7 +98,6 @@ public class coreControl extends Thread{
     public void eliminaCanal(String direccionIP){
         for(int i=0;i<contenedorCanales.size();i++){
             if(contenedorCanales.get(i).getInetAddress().getHostAddress().equals(direccionIP)){
-                
                 contenedorCanales.remove(i);
                 break;
             }
@@ -106,17 +105,32 @@ public class coreControl extends Thread{
     }
     
     private void obtenerDatosDelCliente(){
-        String nick;
+        String estado;
+        String nick="";
         try {
-            in = new ObjectInputStream(canal.getInputStream());
-            nick = (String) in.readObject();
-        } catch (IOException ex) {
+            while(true){
+                //se queda a la espera de recibir un estado
+                estado = (String) in.readObject();
+                switch(estado){
+                    //si ha recibido de que el cliente le va enviar el nick
+                    case estados.SEND_NICK:
+                        //estamos a la espera de que el envie el nick
+                        nick = (String) in.readObject();
+                        //cuando lo recibimos le enviamos al cliente de que le vamos a enviar el listado de usuarios
+                        out.writeObject(estados.SEND_USERS);
+                        out.flush();
+                        break;
+                    //si el servidor recibe dame los usuarios conectados vamos enviarle los usuarios conectados actualmente
+                    case estados.GET_USERS:
+                        out.writeObject(clientes);
+                        out.flush();
+                        //además como todo es correcto vamos añadir en nuestra colección el socket con el nick asociado
+                        canales.put(nick, canal);
+                        break;
+                }
+            }
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(coreControl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(coreControl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
+        } 
     }
 }
