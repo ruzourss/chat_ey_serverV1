@@ -53,16 +53,14 @@ public class multriControl extends Thread {
     }
     
     private void obtenerCanales() throws IOException{
-        System.out.println("eeeeee");
-        String nick="";
-        
+            String nick="";
             entrada = new ObjectInputStream(canal.getInputStream());
             salida = new ObjectOutputStream(canal.getOutputStream());
             
             salida.writeUTF(estados.GET_NICK);
             salida.flush();
-            
             System.out.println("a la espera de recibir orden");
+            
             while(true){
                 switch(entrada.readUTF()){
                 case estados.SEND_NICK:
