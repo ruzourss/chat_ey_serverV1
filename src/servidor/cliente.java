@@ -43,16 +43,15 @@ public class cliente extends Thread {
      * @param field area donde se muestra el número total de usuarios
      * @param area area de texto donde se muestra todos los mensajes del sistema y de los clientes
      * @param nombreClientes un listado con los nombres de los clientes
-     * @param control objeto que se encarga del envio de la lista de los usuairos conectados
      */
-    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes,coreControl control) {
+    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes, coreControl control) {
         this.canal = canal;
         this.mensaje = mensaje;
         this.hilos=hilos;
         this.area=area;
         this.nombreClientes=nombreClientes;
-        this.control=control;
         this.field=field;
+        this.control=control;
     }
     
     @Override
@@ -85,8 +84,7 @@ public class cliente extends Thread {
                                 area.setText(area.getText()+">Entra en el chat..."+nick+"\n");
                                 //añadimos el nombre a la lista que la debemos enviar
                                 nombreClientes.add(this.getName());
-                                control.envioListadoUsuarios();
-                                field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());
+                                field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());                              
                             }else{
                                 //en caso de que el nick no sea el correcto 
                                 //avisamos al cliente
@@ -155,12 +153,7 @@ public class cliente extends Thread {
                 break;
             }
         }
-        //eliminamos el canal que se encuentra a la escucha del otro puerto
-        control.eliminaCanal(canal.getInetAddress().getHostAddress());
-        //llamo al método que envia la lista de usuarios de nuevo a los clientes
-        control.envioListadoUsuarios();
-        // modificamos la variable session para que termine el bucle y su
-        // ejecución
+        control.envia();
         session=false;
     }
     /**

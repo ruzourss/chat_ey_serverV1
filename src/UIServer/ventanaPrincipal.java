@@ -132,7 +132,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         mensajeria mensaje = new mensajeria(jTextAreaChatGeneral,hilos,Integer.valueOf(configuracion.tambuffer));
         coreControl control = new coreControl(Integer.valueOf(configuracion.puertoc), nombreClientes, jTextAreaChatGeneral);
         control.start();
-        new coreMensajeria(Integer.valueOf(configuracion.puertom),hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,control,Integer.valueOf(configuracion.numuser)).start();
+        new coreMensajeria(Integer.valueOf(configuracion.puertom),hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,Integer.valueOf(configuracion.numuser),control).start();
         
     }
 
