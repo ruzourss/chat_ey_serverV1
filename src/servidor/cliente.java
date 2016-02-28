@@ -26,7 +26,6 @@ public class cliente extends Thread {
     private boolean session=true;
     private JTextField field;
     private JTextArea area;
-    private coreControl control;
     
     /**
      * Constructor por defecto
@@ -42,16 +41,14 @@ public class cliente extends Thread {
      * un cliente escriba debe llegar a todos los usuarios conectados.
      * @param field area donde se muestra el número total de usuarios
      * @param area area de texto donde se muestra todos los mensajes del sistema y de los clientes
-     * @param nombreClientes un listado con los nombres de los clientes
      */
-    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes, coreControl control) {
+    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes) {
         this.canal = canal;
         this.mensaje = mensaje;
         this.hilos=hilos;
         this.area=area;
         this.nombreClientes=nombreClientes;
         this.field=field;
-        this.control=control;
     }
     
     @Override
@@ -153,8 +150,8 @@ public class cliente extends Thread {
                 break;
             }
         }
-        control.envia();
         session=false;
+        field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());
     }
     /**
      * Este método debe ser público porque es llamado desde mensaje para renviar el mensaje 

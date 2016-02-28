@@ -4,7 +4,7 @@
     <campos>
       <puertom>9000</puertom>
       <puertoc>9900</puertoc>
-      <numuser>10</numuser>
+      <numuser>5</numuser>
       <tambuffer>25</tambuffer>
       <log>log.txt</log>
     </campos>

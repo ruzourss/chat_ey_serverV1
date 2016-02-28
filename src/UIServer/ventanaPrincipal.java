@@ -3,7 +3,6 @@ package UIServer;
 import Log.Configuracion;
 import java.util.ArrayList;
 import servidor.cliente;
-import servidor.coreControl;
 import servidor.coreMensajeria;
 import servidor.mensajeria;
 
@@ -45,6 +44,11 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         jTextFieldNumeroConexiones.setEditable(false);
 
         jButtonSalir.setText("SALIR");
+        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalirActionPerformed(evt);
+            }
+        });
 
         jTextAreaChatGeneral.setEditable(false);
         jTextAreaChatGeneral.setColumns(20);
@@ -78,6 +82,10 @@ public class ventanaPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        System.exit(-1);
+    }//GEN-LAST:event_jButtonSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,9 +138,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         ArrayList<cliente> hilos = new ArrayList<>();
         ArrayList<String> nombreClientes = new ArrayList<>();
         mensajeria mensaje = new mensajeria(jTextAreaChatGeneral,hilos,Integer.valueOf(configuracion.tambuffer));
-        coreControl control = new coreControl(Integer.valueOf(configuracion.puertoc), nombreClientes, jTextAreaChatGeneral);
-        control.start();
-        new coreMensajeria(Integer.valueOf(configuracion.puertom),hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,Integer.valueOf(configuracion.numuser),control).start();
+        new coreMensajeria(Integer.valueOf(configuracion.puertom),hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,Integer.valueOf(configuracion.numuser)).start();
         
     }
 
