@@ -44,8 +44,8 @@ public class cliente extends Thread {
      * un cliente escriba debe llegar a todos los usuarios conectados.
      * @param field area donde se muestra el número total de usuarios
      * @param area area de texto donde se muestra todos los mensajes del sistema y de los clientes
-     * @param nombreClientes
-     * @param control
+     * @param nombreClientes listado de los clientes
+     * @param control objeto que se encarga de enviar el listado de los usuarios conectados
      */
     public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes,conexionControl control) {
         this.canal = canal;
