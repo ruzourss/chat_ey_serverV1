@@ -1,8 +1,10 @@
 package UIServer;
 
 import Log.Configuracion;
+import java.net.Socket;
 import java.util.ArrayList;
 import servidor.cliente;
+import servidor.control.conexionControl;
 import servidor.coreMensajeria;
 import servidor.mensajeria;
 
@@ -12,7 +14,7 @@ import servidor.mensajeria;
  * @author Tautvydas Bagocius
  */
 public class ventanaPrincipal extends javax.swing.JFrame {
-
+    private conexionControl control;
     /**
      * Creates new form ventanaPrincipal
      */
@@ -137,11 +139,14 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         Configuracion configuracion = new Configuracion();
         ArrayList<cliente> hilos = new ArrayList<>();
         ArrayList<String> nombreClientes = new ArrayList<>();
+        ArrayList <Socket> clienControls = new ArrayList<>();
         mensajeria mensaje = new mensajeria(jTextAreaChatGeneral,hilos,Integer.valueOf(configuracion.tambuffer));
-        new coreMensajeria(Integer.valueOf(configuracion.puertom),hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,Integer.valueOf(configuracion.numuser)).start();
+        control=new conexionControl(9900,clienControls, nombreClientes);
+        control.start();
+        new coreMensajeria(Integer.valueOf(configuracion.puertom),hilos,nombreClientes,mensaje,jTextFieldNumeroConexiones,jTextAreaChatGeneral,Integer.valueOf(configuracion.numuser),control).start();
         
     }
-
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JScrollPane jScrollPane1;

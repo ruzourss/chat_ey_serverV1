@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import servidor.control.conexionControl;
 
 /**
  * Hilo que simula el funcionamiento de un nuevo cliente
@@ -26,6 +27,8 @@ public class cliente extends Thread {
     private boolean session=true;
     private JTextField field;
     private JTextArea area;
+    private conexionControl control;
+    
     
     /**
      * Constructor por defecto
@@ -41,14 +44,17 @@ public class cliente extends Thread {
      * un cliente escriba debe llegar a todos los usuarios conectados.
      * @param field area donde se muestra el número total de usuarios
      * @param area area de texto donde se muestra todos los mensajes del sistema y de los clientes
+     * @param nombreClientes
+     * @param control
      */
-    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes) {
+    public cliente(Socket canal, mensajeria mensaje,ArrayList<cliente> hilos,JTextField field,JTextArea area,ArrayList<String> nombreClientes,conexionControl control) {
         this.canal = canal;
         this.mensaje = mensaje;
         this.hilos=hilos;
         this.area=area;
         this.nombreClientes=nombreClientes;
         this.field=field;
+        this.control=control;
     }
     
     @Override
@@ -150,6 +156,14 @@ public class cliente extends Thread {
                 break;
             }
         }
+        
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                control.enviar();
+            }
+        }).start();
+        
         session=false;
         field.setText("NÚMERO DE CONEXIONES ACTUALES: "+hilos.size());
     }
