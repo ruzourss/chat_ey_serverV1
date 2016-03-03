@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servidor.control;
 
 import java.io.IOException;
@@ -15,7 +10,8 @@ import java.util.logging.Logger;
 import servidor.outObject;
 
 /**
- *
+ * clase que esta siempre a la escucha de que un cliente se 
+ * conecte, y que le envia un listado de todos los usuarios conectados
  * @author Tautvydas
  */
 public class conexionControl extends Thread{
@@ -26,16 +22,25 @@ public class conexionControl extends Thread{
     private ArrayList<Socket> clientesControl;
     private ArrayList<String> listaUsuarios;
     private outObject out;
-
+    /**
+     * constructor por defecto
+     */
     public conexionControl() {
     }
-
+    /**
+     * constructor que recibe 
+     * @param puerto puerto de esucha
+     * @param clientesControl listado de canales
+     * @param listaUsuarios lista de usuarios conectados
+     */
     public conexionControl(int puerto, ArrayList<Socket> clientesControl,ArrayList<String> listaUsuarios) {
         this.puerto = puerto;
         this.clientesControl = clientesControl;
         this.listaUsuarios=listaUsuarios;
     }
-    
+    /**
+     * Método que arranca el servidor
+     */
     private void initServer(){
         try {
             control = new ServerSocket(puerto);
@@ -57,7 +62,11 @@ public class conexionControl extends Thread{
         }
     }
     
-    
+    /**
+     * Método que es llamado cada vez que se desconecta u conecta un cliente.
+     * Realizamos el control de que si un cliente ya esta desconectado , lo removemos
+     * de la lista y volvemos enviarla a los usuarios
+     */
     public synchronized void enviar(){
         Iterator iterador = clientesControl.iterator();
         
@@ -70,23 +79,8 @@ public class conexionControl extends Thread{
             } catch (IOException ex) {
                 iterador.remove();
                 enviar();
-//                Logger.getLogger(conexionControl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-//        for (Socket clientesControl1 : clientesControl) {
-//            try {
-//                out = new outObject(clientesControl1.getOutputStream());
-//                out.writeObject(listaUsuarios);
-//                out.flush();
-//            } catch (IOException ex) {
-//                //en caso si se ha desconectado el cliente lo eliminamos de la lista
-//                clientesControl.remove(clientesControl1);
-//                enviar();
-////                Logger.getLogger(conexionControl.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            
-//        }
     }
     
     
@@ -94,8 +88,4 @@ public class conexionControl extends Thread{
     public void run() {
         initServer();
     }
-    
-    
-    
-    
 }

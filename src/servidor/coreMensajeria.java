@@ -26,14 +26,14 @@ public class coreMensajeria extends Thread {
     private final conexionControl control;
 /**
  * constructor por defecto que inicializa el objeto mensaje y la lista de clientes.
-     * @param puerto
-     * @param hilos
-     * @param nombreClientes
-     * @param mensaje
-     * @param field
-     * @param area
-     * @param numeroUsuarios
-     * @param control
+     * @param puerto puerto de esucha por donde va recibir los clientes e enviar los mensajes
+     * @param hilos listado de todos los clientes conectados
+     * @param nombreClientes listado de todos los clientes conectados
+     * @param mensaje objeto que se encarga de todo el tema de mensajes
+     * @param field campo donde muestra el número de conexiones totales
+     * @param area area de texto donde se almacena todo lo enviado y recibido
+     * @param numeroUsuarios número de usuarios 
+     * @param control objeto control que se encarga de enviar la lista de los usuarios
  */
     public coreMensajeria(int puerto,ArrayList<cliente> hilos,ArrayList<String> nombreClientes,mensajeria mensaje,JTextField field,JTextArea area,int numeroUsuarios,conexionControl control) {
         this.puerto=puerto;
